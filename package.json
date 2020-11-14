@@ -1,0 +1,22 @@
+{
+  "name": "bad-api-parser",
+  "version": "1.0.0",
+  "description": "Fetches data from legacy api and parsers it into desired format.",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir json",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Teemu Kostamo",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
