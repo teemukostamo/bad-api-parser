@@ -10,23 +10,47 @@ const parseAvailability = (string) => {
 };
 
 const getShirts = async () => {
-  const req = await axios.get(
-    'https://bad-api-assignment.reaktor.com/products/shirts'
-  );
+  const req = await axios.get(`${baseUrl}/products/shirts`);
+
+  return req.data;
+};
+
+const getJackets = async () => {
+  const req = await axios.get(`${baseUrl}/products/jackets`);
+
+  return req.data;
+};
+
+const getAccessories = async () => {
+  const req = await axios.get(`${baseUrl}/products/accessories`);
 
   return req.data;
 };
 
 const fetchData = async () => {
   const shirts = await getShirts();
+  const jackets = await getJackets();
+  const accessories = await getAccessories();
 
   const shirtManufacturers = [...new Set(shirts.map((m) => m.manufacturer))];
+  const jacketManufacturers = [...new Set(jackets.map((m) => m.manufacturer))];
+  const accessoryManufacturers = [
+    ...new Set(accessories.map((m) => m.manufacturer)),
+  ];
 
-  const allAvailabilities = await getAvailabilities(shirtManufacturers);
+  const manufactures = shirtManufacturers.concat(
+    jacketManufacturers,
+    accessoryManufacturers
+  );
+
+  const uniqueManufacturers = [...new Set(manufactures)];
+
+  const allAvailabilities = await getAvailabilities(uniqueManufacturers);
 
   const shirtsWithAvailability = [];
+  const jacketsWithAvailability = [];
+  const accessoriesWithAvailability = [];
 
-  //
   shirts.forEach((shirt) => {
     const availability = allAvailabilities.find(
       (a) => a.id.toUpperCase() === shirt.id.toUpperCase()
@@ -39,12 +63,41 @@ const fetchData = async () => {
         DATAPAYLOAD: parseAvailability(availability.DATAPAYLOAD),
       },
     };
+
     shirtsWithAvailability.push(shirtWithAvailability);
   });
 
-  console.log(shirtsWithAvailability[0]);
-  console.log(shirtsWithAvailability[1]);
-  console.log(shirtsWithAvailability[2]);
+  jackets.forEach((jacket) => {
+    const availability = allAvailabilities.find(
+      (a) => a.id.toUpperCase() === jacket.id.toUpperCase()
+    );
+
+    const jacketWithAvailability = {
+      ...jacket,
+      availability: {
+        id: availability.id,
+        DATAPAYLOAD: parseAvailability(availability.DATAPAYLOAD),
+      },
+    };
+
+    jacketsWithAvailability.push(jacketWithAvailability);
+  });
+
+  accessories.forEach((accessory) => {
+    const availability = allAvailabilities.find(
+      (a) => a.id.toUpperCase() === accessory.id.toUpperCase()
+    );
+
+    const accessoryWithAvailability = {
+      ...accessory,
+      availability: {
+        id: availability.id,
+        DATAPAYLOAD: parseAvailability(availability.DATAPAYLOAD),
+      },
+    };
+
+    accessoriesWithAvailability.push(accessoryWithAvailability);
+  });
 
   const jsonShirts = JSON.stringify(shirtsWithAvailability);
   fs.writeFileSync('json/shirts.json', jsonShirts, function (err) {
@@ -52,16 +105,40 @@ const fetchData = async () => {
       return console.log(err);
     }
 
-    console.log('The file was saved!');
+    console.log('The file shirts.json was saved!');
+  });
+
+  const jsonJackets = JSON.stringify(jacketsWithAvailability);
+  fs.writeFileSync('json/jackets.json', jsonJackets, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log('The file jackets.json was saved!');
+  });
+
+  const jsonAccessories = JSON.stringify(accessoriesWithAvailability);
+  fs.writeFileSync('json/accessories.json', jsonAccessories, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log('The file accessories.json was saved!');
   });
 };
 
 const getAvailability = async (manufacturer) => {
-  const req = await axios.get(
-    `https://bad-api-assignment.reaktor.com/availability/${manufacturer}`
-  );
+  const req = await axios.get(`${baseUrl}/availability/${manufacturer}`);
 
-  return req.data.response;
+  if (req.data.response === '[]') {
+    setTimeout(() => {
+      getAvailability(manufacturer);
+    }, 100);
+  } else {
+    return req.data.response;
+  }
+
+  // return req.data.response;
 };
 
 const getAvailabilities = async (manufacturers) => {
