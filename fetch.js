@@ -1,5 +1,8 @@
 const axios = require('axios');
 const fs = require('fs');
+
+const { getTimestamp } = require('./utils');
+
 const productTypes = ['shirts', 'jackets', 'accessories'];
 const baseUrl = 'https://bad-api-assignment.reaktor.com';
 
@@ -99,7 +102,10 @@ const fetchData = async () => {
     accessoriesWithAvailability.push(accessoryWithAvailability);
   });
 
-  const jsonShirts = JSON.stringify(shirtsWithAvailability);
+  const jsonShirts = JSON.stringify({
+    products: shirtsWithAvailability,
+    timestamp: getTimestamp(),
+  });
   fs.writeFileSync('json/shirts.json', jsonShirts, function (err) {
     if (err) {
       return console.log(err);
@@ -108,7 +114,10 @@ const fetchData = async () => {
     console.log('The file shirts.json was saved!');
   });
 
-  const jsonJackets = JSON.stringify(jacketsWithAvailability);
+  const jsonJackets = JSON.stringify({
+    products: jacketsWithAvailability,
+    timestamp: getTimestamp(),
+  });
   fs.writeFileSync('json/jackets.json', jsonJackets, function (err) {
     if (err) {
       return console.log(err);
@@ -117,7 +126,10 @@ const fetchData = async () => {
     console.log('The file jackets.json was saved!');
   });
 
-  const jsonAccessories = JSON.stringify(accessoriesWithAvailability);
+  const jsonAccessories = JSON.stringify({
+    products: accessoriesWithAvailability,
+    timestamp: getTimestamp(),
+  });
   fs.writeFileSync('json/accessories.json', jsonAccessories, function (err) {
     if (err) {
       return console.log(err);
