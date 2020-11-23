@@ -1,0 +1,25 @@
+{
+  "code": 200,
+  "response": [
+    {
+      "id": "F8016F8E3897CBD129EC0FDE",
+      "DATAPAYLOAD": "INSTOCK"
+    },
+    {
+      "id": "A9262D3E27A19F6B9DE",
+      "DATAPAYLOAD": "INSTOCK"
+    },
+    {
+      "id": "1358BF45194AE55F4A251B",
+      "DATAPAYLOAD": "INSTOCK"
+    },
+    {
+      "id": "389008BF68017C54901",
+      "DATAPAYLOAD": "LESSTHAN10"
+    },
+    {
+      "id": "53A3C387283107E799",
+      "DATAPAYLOAD": "INSTOCK"
+    }
+  ]
+}

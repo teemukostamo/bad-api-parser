@@ -1,3 +1,7 @@
+const addZero = (string) => {
+  return string.length === 1 ? `0${string}` : string;
+};
+
 const getTimestamp = () => {
   let date_ob = new Date();
 
@@ -8,18 +12,20 @@ const getTimestamp = () => {
   let month = ('0' + (date_ob.getMonth() + 1)).slice(-2);
 
   // current year
-  let year = date_ob.getFullYear();
+  let year = date_ob.getFullYear().toString();
 
   // current hours
-  let hours = date_ob.getHours();
+  let hours = date_ob.getHours().toString();
 
   // current minutes
-  let minutes = date_ob.getMinutes();
+  let minutes = date_ob.getMinutes().toString();
 
   // current seconds
-  let seconds = date_ob.getSeconds();
+  let seconds = date_ob.getSeconds().toString();
 
-  return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+  return `${year}-${addZero(month)}-${addZero(date)} ${addZero(
+    hours
+  )}:${addZero(minutes)}:${addZero(seconds)}`;
 };
 
 module.exports = { getTimestamp };

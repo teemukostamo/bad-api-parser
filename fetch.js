@@ -1,10 +1,8 @@
 const axios = require('axios');
 const fs = require('fs');
 
+const { baseUrl } = require('./constants');
 const { getTimestamp } = require('./utils');
-
-const productTypes = ['shirts', 'jackets', 'accessories'];
-const baseUrl = 'https://bad-api-assignment.reaktor.com';
 
 const parseAvailability = (string) => {
   const availability = string.substring(31).slice(0, -31);
@@ -149,8 +147,6 @@ const getAvailability = async (manufacturer) => {
   } else {
     return req.data.response;
   }
-
-  // return req.data.response;
 };
 
 const getAvailabilities = async (manufacturers) => {

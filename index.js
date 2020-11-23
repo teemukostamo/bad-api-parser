@@ -15,6 +15,14 @@ app.get('/ping', (_req, res) => {
 
 app.use(express.static(path.resolve(__dirname, './json')));
 
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve(__dirname, './public', 'index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
+
 app.get('/shirts', (_req, res) => {
   fs.readFile('./json/shirts.json', 'utf8', function (err, data) {
     if (err) throw err;
@@ -47,3 +55,5 @@ const PORT = 5000;
 app.listen({ port: process.env.PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:${PORT}`)
 );
+
+module.exports = app;

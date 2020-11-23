@@ -1,0 +1,42 @@
+[
+  {
+    "id": "f8016f8e3897cbd129ec0fde",
+    "type": "shirts",
+    "name": "NYXBE BRIGHT METROPOLIS",
+    "color": ["yellow"],
+    "price": 44,
+    "manufacturer": "derp"
+  },
+  {
+    "id": "a9262d3e27a19f6b9de",
+    "type": "shirts",
+    "name": "HUNKOX RAIN",
+    "color": ["black"],
+    "price": 56,
+    "manufacturer": "abiplos"
+  },
+  {
+    "id": "1358bf45194ae55f4a251b",
+    "type": "shirts",
+    "name": "REPBE LIGHT",
+    "color": ["green"],
+    "price": 21,
+    "manufacturer": "nouke"
+  },
+  {
+    "id": "389008bf68017c54901",
+    "type": "shirts",
+    "name": "ONIOX EARTH",
+    "color": ["white"],
+    "price": 57,
+    "manufacturer": "abiplos"
+  },
+  {
+    "id": "53a3c387283107e799",
+    "type": "shirts",
+    "name": "XIUGREP JUMP",
+    "color": ["blue"],
+    "price": 45,
+    "manufacturer": "reps"
+  }
+]
