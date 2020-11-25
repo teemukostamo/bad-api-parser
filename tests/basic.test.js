@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const axios = require('axios');
 const { getTimestamp } = require('../utils');
 const { baseUrl } = require('../constants');

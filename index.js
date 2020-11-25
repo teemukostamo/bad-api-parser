@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 const fetchData = require('./fetch');
@@ -15,7 +17,7 @@ app.get('/ping', (_req, res) => {
 
 app.use(express.static(path.resolve(__dirname, './json')));
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, './public', 'index.html'), (err) => {
     if (err) {
       res.status(500).send(err);
@@ -24,7 +26,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/shirts', (_req, res) => {
-  fs.readFile('./json/shirts.json', 'utf8', function (err, data) {
+  fs.readFile('./json/shirts.json', 'utf8', (err, data) => {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
     res.status(200).send(JSON.parse(data));
@@ -32,7 +34,7 @@ app.get('/shirts', (_req, res) => {
 });
 
 app.get('/jackets', (_req, res) => {
-  fs.readFile('./json/jackets.json', 'utf8', function (err, data) {
+  fs.readFile('./json/jackets.json', 'utf8', (err, data) => {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
     res.status(200).send(JSON.parse(data));
@@ -40,7 +42,7 @@ app.get('/jackets', (_req, res) => {
 });
 
 app.get('/accessories', (_req, res) => {
-  fs.readFile('./json/accessories.json', 'utf8', function (err, data) {
+  fs.readFile('./json/accessories.json', 'utf8', (err, data) => {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
     res.status(200).send(JSON.parse(data));

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const axios = require('axios');
 const fs = require('fs');
 
@@ -26,6 +27,32 @@ const getAccessories = async () => {
   const req = await axios.get(`${baseUrl}/products/accessories`);
 
   return req.data;
+};
+
+const getAvailability = async (manufacturer) => {
+  const req = await axios.get(`${baseUrl}/availability/${manufacturer}`);
+
+  if (req.data.response === '[]') {
+    setTimeout(() => {
+      getAvailability(manufacturer);
+    }, 100);
+  } else {
+    return req.data.response;
+  }
+};
+
+const getAvailabilities = async (manufacturers) => {
+  const availabilities = [];
+
+  await Promise.all(
+    manufacturers.map(async (m) => {
+      const data = await getAvailability(m);
+      // if data === [] refetch data
+      availabilities.push(data);
+    })
+  );
+
+  return availabilities.flat(1);
 };
 
 const fetchData = async () => {
@@ -104,7 +131,7 @@ const fetchData = async () => {
     products: shirtsWithAvailability,
     timestamp: getTimestamp(),
   });
-  fs.writeFileSync('json/shirts.json', jsonShirts, function (err) {
+  fs.writeFileSync('json/shirts.json', jsonShirts, (err) => {
     if (err) {
       return console.log(err);
     }
@@ -116,7 +143,8 @@ const fetchData = async () => {
     products: jacketsWithAvailability,
     timestamp: getTimestamp(),
   });
-  fs.writeFileSync('json/jackets.json', jsonJackets, function (err) {
+
+  fs.writeFileSync('json/jackets.json', jsonJackets, (err) => {
     if (err) {
       return console.log(err);
     }
@@ -128,7 +156,7 @@ const fetchData = async () => {
     products: accessoriesWithAvailability,
     timestamp: getTimestamp(),
   });
-  fs.writeFileSync('json/accessories.json', jsonAccessories, function (err) {
+  fs.writeFileSync('json/accessories.json', jsonAccessories, (err) => {
     if (err) {
       return console.log(err);
     }
@@ -137,29 +165,4 @@ const fetchData = async () => {
   });
 };
 
-const getAvailability = async (manufacturer) => {
-  const req = await axios.get(`${baseUrl}/availability/${manufacturer}`);
-
-  if (req.data.response === '[]') {
-    setTimeout(() => {
-      getAvailability(manufacturer);
-    }, 100);
-  } else {
-    return req.data.response;
-  }
-};
-
-const getAvailabilities = async (manufacturers) => {
-  const availabilities = [];
-
-  await Promise.all(
-    manufacturers.map(async (m) => {
-      const data = await getAvailability(m);
-      // if data === [] refetch data
-      availabilities.push(data);
-    })
-  );
-
-  return availabilities.flat(1);
-};
 module.exports = fetchData;
